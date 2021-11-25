@@ -1,0 +1,13 @@
+{% extends "base/base.html" %}
+{% block head %}
+    {{ block.super }}
+    <title>News list</title>
+{% endblock %}
+{% block content %}
+    <h1>{{ page.title|safe }}</h1>
+    <img src="{{ page.img_link|safe }}" alt="" width="390" height="198">
+    <span>{{ page.article_date|safe }}</span>
+    <span>{{ page.article_author|safe }}</span>
+    <p>{{ page.tags|safe }}</p>
+    <p>{{ page.text|safe }}</p>
+{% endblock %}
