@@ -32,12 +32,11 @@ ALLOWED_HOSTS = []
 CELERY_BROKER_URL = 'pyamqp://guest@localhost//'
 CELERY_TIMEZONE = "Europe/Kiev"
 
-# Execute every 15 minutes
+# Execute every 3 hour
 CELERY_BEAT_SCHEDULE = {
     'parse_pages': {
         'task': 'scraper.tasks.parse_pages',
-        'schedule': crontab(minute='*/15'),
-        # 'schedule': 10
+        'schedule': crontab(minute=0, hour='*/3'),
     }
 }
 
@@ -51,8 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django_celery_results',
-    # 'django_celery_beat'
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +137,10 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Django Rest Framework
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}

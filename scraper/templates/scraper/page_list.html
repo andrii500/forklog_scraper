@@ -7,6 +7,24 @@
     {% block content %}
         <h1>News List</h1>
 
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+
         <div class="container ">
             {% for page in page_list %}
                 <div class="card w-100" style="max-width: 1000px">
@@ -20,46 +38,15 @@
                                 <p class="card-text">{{ page.text|custom_split:"." }}.</p>
                             </div>
                             <div class="card-text p-3">
-                                <p class="card-text text-end"><small class="text-muted">{{ page.article_author|safe }} {{ page.article_date|date:"d.m.Y" }}</small></p>
+                                <p class="card-text text-end">
+                                    <small class="text-muted">
+                                        {{ page.article_author|safe }} {{ page.article_date|date:"d.m.Y" }}
+                                    </small>
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-    <!--            <div>-->
-    <!--                <a href="{% url 'news_page' page.id %}" class="row align-items-start">-->
-    <!--                    <div class="col">-->
-    <!--                        <img src="{{ page.img_link|safe }}" width="300" height="200">-->
-    <!--                    </div>-->
-    <!--                    <div class="col">-->
-    <!--                        <p>{{ page.title|safe }}</p>-->
-    <!--                        <br>-->
-    <!--                        {% load custom_tags %}-->
-    <!--                        <span>{{ page.text|custom_split:"." }}.</span>-->
-    <!--                        <br>-->
-    <!--                        <br>-->
-    <!--                        <span>{{ page.article_author|safe }}</span>-->
-    <!--                        <span>{{ page.article_date|safe }}</span>-->
-    <!--                    </div>-->
-    <!--                </a>-->
-    <!--            </div>-->
             {% endfor %}
-        </div>
-
-        <div class="pagination">
-            <span class="step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-                {% endif %}
-
-                <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-                </span>
-
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">next</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                 {% endif %}
-            </span>
         </div>
     {% endblock %}
