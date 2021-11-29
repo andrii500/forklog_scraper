@@ -28,14 +28,16 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Celery settings
 CELERY_BROKER_URL = 'pyamqp://guest@localhost//'
+CELERY_TIMEZONE = "Europe/Kiev"
 
 # Execute every 15 minutes
 CELERY_BEAT_SCHEDULE = {
     'parse_pages': {
-        'task': 'forklog_scraper.tasks.parse_pages',
-        # 'schedule': crontab(minute='*/15'),
-        'schedule': 10
+        'task': 'scraper.tasks.parse_pages',
+        'schedule': crontab(minute='*/15'),
+        # 'schedule': 10
     }
 }
 
@@ -49,7 +51,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_celery_results'
+    # 'django_celery_results',
+    # 'django_celery_beat'
 ]
 
 MIDDLEWARE = [

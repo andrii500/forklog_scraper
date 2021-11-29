@@ -2,8 +2,34 @@
 {% block head %}
     {{ block.super }}
     <title>Forklog</title>
+    <style>
+        .btn-circle {
+            color: white;
+            width: 200px;
+            height: 200px;
+            border-radius: 100px;
+            text-align: center;
+            padding-left: 0;
+            padding-right: 0;
+            font-size: 16px;
+            white-space: normal;
+        }
+        .a-decoration {
+            text-decoration: none;
+        }
+    </style>
 {% endblock %}
 {% block content %}
-    <p>Tap the link</p>
-    <a href="news">News</a>
+<div class="container-sm">
+    <div class="row align-items-center">
+        <div class="col-7">
+            <p>This application parsing news from Forklog.com. Tap the button and starts download.</p>
+        </div>
+        <div class="col-5">
+            <a href="news" class="a-decoration">
+                <button type="button" class="btn btn-info btn-circle d-block mx-auto"><i class="fas fa-play"></i><br>Start</button>
+            </a>
+        </div>
+    </div>
+</div>
 {% endblock %}
