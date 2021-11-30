@@ -43,7 +43,6 @@ CELERY_BEAT_SCHEDULE = {
 # Application definition
 
 INSTALLED_APPS = [
-    'scraper.apps.ScraperConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'scraper',
 ]
 
 MIDDLEWARE = [
