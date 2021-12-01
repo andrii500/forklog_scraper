@@ -5,6 +5,12 @@ from bs4 import BeautifulSoup
 from .models import Page
 
 
+# Django Rest
+from django.contrib.auth import get_user_model
+User = get_user_model()
+user_instance = User.objects.get(username='admin')
+
+
 @shared_task
 def parse_pages():
     url = 'https://forklog.com/news/page/'
@@ -59,4 +65,5 @@ def parse_page(link):
 
         if not Page.objects.filter(topic_link=link).exists():
             Page.objects.create(topic_link=link, img_link=img_link, title=title, article_author=article_author,
-                                article_date=article_date, tags=tags, text=text)
+                                article_date=article_date, tags=tags, text=text, user=user_instance)
+
