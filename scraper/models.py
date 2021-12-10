@@ -13,7 +13,7 @@ class Page(models.Model):
     article_author = models.TextField(verbose_name='Article author')
     tags = models.TextField(verbose_name='Tags')
     text = models.TextField(verbose_name='Article')
-    user = models.ForeignKey(User, verbose_name='User login', on_delete=models.CASCADE)
+    user = models.ForeignKey('auth.User', verbose_name='User login', related_name='pages', on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['-article_date']

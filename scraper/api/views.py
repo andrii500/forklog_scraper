@@ -83,24 +83,67 @@
 #             status=status.HTTP_200_OK
 #         )
 
-from rest_framework import generics
-from .serializers import PageDetailSerializer, PageListSerializer
+# from rest_framework import generics
+# from .serializers import PageDetailSerializer, PageListSerializer
+# from scraper.models import Page
+# from .permissions import IsOwnerOrReadOnly
+# from rest_framework.permissions import IsAuthenticated
+#
+#
+# class PageCreateView(generics.CreateAPIView):
+#     serializer_class = PageDetailSerializer
+#
+#
+# class PagesListView(generics.ListAPIView):
+#     serializer_class = PageListSerializer
+#     queryset = Page.objects.all()
+#     permission_classes = (IsAuthenticated, )
+#
+#
+# class PageDetailView(generics.RetrieveUpdateDestroyAPIView):
+#     serializer_class = PageDetailSerializer
+#     queryset = Page.objects.all()
+#     permission_classes = (IsOwnerOrReadOnly, )
+
+
+from django.contrib.auth.models import User
 from scraper.models import Page
+from .serializers import PageSerializer, UserSerializer
 from .permissions import IsOwnerOrReadOnly
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import generics, permissions
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
 
-class PageCreateView(generics.CreateAPIView):
-    serializer_class = PageDetailSerializer
-
-
-class PagesListView(generics.ListAPIView):
-    serializer_class = PageListSerializer
+class PageList(generics.ListCreateAPIView):
     queryset = Page.objects.all()
-    permission_classes = (IsAuthenticated, )
+    serializer_class = PageSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
-class PageDetailView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = PageDetailSerializer
+class PageDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Page.objects.all()
-    permission_classes = (IsOwnerOrReadOnly, )
+    serializer_class = PageSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'users': reverse('user-list', request=request, format=format),
+        'pages': reverse('page-list', request=request, format=format)
+    })
